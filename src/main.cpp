@@ -1,21 +1,31 @@
-#include <SFML/System.hpp>
 #include <Eigen/Dense>
 #include <iostream>
 
-using Eigen::MatrixXd;
+#include "objects/camera.h"
+#include "renderer.h"
+#include "world.h"
+
+using namespace Eigen;
 
 int main() {
-    // test libs
+    // test camera
+    Camera camera;
+    camera.eye = Vector3f(0, -10, 0);
+    camera.up = Vector3f(0, 0, 1);
+    camera.target = Vector3f(0, 0, 0);
+    camera.near = 1.0f;
+    camera.window_width = 60;
+    camera.window_height = 120;
 
-    sf::Time t1 = sf::microseconds(100000);
-    std::cout << t1.asSeconds() << std::endl;
+    World world;
+    world.main_camera = camera;
 
-    MatrixXd m(2,2);
-    m(0,0) = 3;
-    m(1,0) = 2.5;
-    m(0,1) = -1;
-    m(1,1) = m(1,0) + m(0,1);
-    std::cout << m << std::endl;
+    // Add test mesh here
+
+    Renderer renderer;
+    DumbFrameBuffer res = renderer.Render(world);
+
+    // Output frame with sfml
 
     return 0;
 }
