@@ -1,23 +1,25 @@
 #pragma once
 
-#include <iostream>
-
 #include "Linalg.h"
 #include "primitives/Polygon.h"
 #include "util.h"
 
+#include <iostream>
+
 namespace Render3D {
 class Camera {
 public:
-    Camera(const Vector3& eye, const Vector3& target, float camera_width, float camera_height, float near = 1.0)
-    : eye_(eye), target_(target), camera_width_(camera_width), camera_height_(camera_height), near_(near) {
+    Camera(const Vector3& eye, const Vector3& target, float camera_width, float camera_height,
+           float near = 1.0)
+        : eye_(eye), target_(target), camera_width_(camera_width), camera_height_(camera_height),
+          near_(near) {
         view_matrix_ = computeViewMatrix();
     }
 
     PolygonAttributes transformToNormalizedSpace(const Polygon& polygon) const {
         PolygonAttributes attr = projectOnScreen(polygon);
 
-        Polygon2D& res = attr.projectionOnScreen; 
+        Polygon2D& res = attr.projectionOnScreen;
 
         res.p1(0) = (res.p1(0) + camera_width_ / 2) / camera_width_;
         res.p1(1) = (res.p1(1) + camera_height_ / 2) / camera_height_;
@@ -45,7 +47,7 @@ private:
         view(0, 3) = -x.dot(eye_);
         view(1, 3) = -y.dot(eye_);
         view(2, 3) = -z.dot(eye_);
-    
+
         return view;
     }
 
@@ -63,10 +65,13 @@ private:
     PolygonAttributes projectOnScreen(const Polygon& polygon) const {
         Polygon transformed_polygon = transfromToCameraCoordinates(polygon);
 
-        Polygon2D res_polygon {
-            .p1 = Vector2(near_ * transformed_polygon.p1(0) / - transformed_polygon.p1(2), near_ * transformed_polygon.p1(1) / - transformed_polygon.p1(2)),
-            .p2 = Vector2(near_ * transformed_polygon.p2(0) / - transformed_polygon.p2(2), near_ * transformed_polygon.p2(1) / - transformed_polygon.p2(2)),
-            .p3 = Vector2(near_ * transformed_polygon.p3(0) / - transformed_polygon.p3(2), near_ * transformed_polygon.p3(1) / - transformed_polygon.p3(2)),
+        Polygon2D res_polygon{
+            .p1 = Vector2(near_ * transformed_polygon.p1(0) / -transformed_polygon.p1(2),
+                          near_ * transformed_polygon.p1(1) / -transformed_polygon.p1(2)),
+            .p2 = Vector2(near_ * transformed_polygon.p2(0) / -transformed_polygon.p2(2),
+                          near_ * transformed_polygon.p2(1) / -transformed_polygon.p2(2)),
+            .p3 = Vector2(near_ * transformed_polygon.p3(0) / -transformed_polygon.p3(2),
+                          near_ * transformed_polygon.p3(1) / -transformed_polygon.p3(2)),
         };
 
         res_polygon.color = polygon.color;
@@ -81,8 +86,8 @@ private:
     }
 
     Vector3 eye_, target_;
-    float   near_;
-    float   camera_width_, camera_height_;
+    float near_;
+    float camera_width_, camera_height_;
     Matrix4 view_matrix_;
 };
-}  // namespace Render3D
+} // namespace Render3D

@@ -20,7 +20,7 @@ public:
 
             // FIXME simulate Ambient lighting somewhere else
             float NdotL = std::max(normal.dot(L), 0.2f);
-            polygon.color = polygon.color * light.intensity * NdotL;
+            polygon.color = Polygon::BaseColor * light.intensity * NdotL;
         }
     }
 

@@ -6,6 +6,7 @@
 #include "objects/Light.h"
 #include "objects/primitives/Polygon.h"
 
+#include <iostream>
 #include <vector>
 
 namespace Render3D {
@@ -24,10 +25,29 @@ public:
         }
 
         for (const PolygonAttributes& attributes : all_polygons_attrs) {
-            // TODO calculate borders of each polygon
+            // TODO do normally
+            int minX = width_, minY = height_, maxX = 0, maxY = 0;
 
-            for (unsigned int i = 0; i < width_; ++i) {
-                for (unsigned int j = 0; j < height_; ++j) {
+            minX = std::min(minX, static_cast<int>(attributes.projectionOnScreen.p1.x()));
+            minX = std::min(minX, static_cast<int>(attributes.projectionOnScreen.p2.x()));
+            minX = std::min(minX, static_cast<int>(attributes.projectionOnScreen.p3.x()));
+
+            minY = std::min(minY, static_cast<int>(attributes.projectionOnScreen.p1.y()));
+            minY = std::min(minY, static_cast<int>(attributes.projectionOnScreen.p2.y()));
+            minY = std::min(minY, static_cast<int>(attributes.projectionOnScreen.p3.y()));
+
+            maxX = std::max(maxX, static_cast<int>(attributes.projectionOnScreen.p1.x() + 0.5));
+            maxX = std::max(maxX, static_cast<int>(attributes.projectionOnScreen.p2.x() + 0.5));
+            maxX = std::max(maxX, static_cast<int>(attributes.projectionOnScreen.p3.x() + 0.5));
+
+            maxY = std::max(maxY, static_cast<int>(attributes.projectionOnScreen.p1.y() + 0.5));
+            maxY = std::max(maxY, static_cast<int>(attributes.projectionOnScreen.p2.y() + 0.5));
+            maxY = std::max(maxY, static_cast<int>(attributes.projectionOnScreen.p3.y() + 0.5));
+
+            // std::cout << minX << ' ' << maxX << ' ' << minY << ' ' << maxY << std::endl;
+
+            for (unsigned int i = minX; i < maxX; ++i) {
+                for (unsigned int j = minY; j < maxY; ++j) {
                     Vector2 point(i + 0.5, j + 0.5);
 
                     Vector3 barycentric_coordinates =
