@@ -19,8 +19,8 @@ public:
     }
 
 private:
-    size_t width_;
-    size_t height_;
+    unsigned int width_;
+    unsigned int height_;
     std::vector<float> matrix_;
 };
-} // namespace Render3D
+};

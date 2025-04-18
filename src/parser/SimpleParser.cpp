@@ -1,26 +1,11 @@
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
+#include "SimpleParser.h"
 
 namespace Parser {
-struct Vertex {
-    float x, y, z;
-};
-
-struct Face {
-    std::vector<int> vertexIndices; // Indices of the vertices forming the face
-};
-
-class OBJParser {
-public:
-    // Parses the .obj file and stores vertices and faces
-    bool parse(const std::string& filename) {
+    ParsedMesh OBJParser::parse(const std::string& filename) {
         std::ifstream file(filename);
         if (!file.is_open()) {
             std::cerr << "Failed to open file: " << filename << std::endl;
-            return false;
+            throw std::runtime_error("Cannot open file: " + filename);
         }
 
         std::string line;
@@ -52,28 +37,6 @@ public:
         }
 
         file.close();
-        return true;
+        return {std::move(vertices), std::move(faces)};
     }
-
-    // Prints the vertices
-    void printVertices() const {
-        for (const auto& vertex : vertices) {
-            std::cout << "Vertex: (" << vertex.x << ", " << vertex.y << ", " << vertex.z << ")\n";
-        }
-    }
-
-    // Prints the faces
-    void printFaces() const {
-        for (const auto& face : faces) {
-            std::cout << "Face: ";
-            for (const auto& index : face.vertexIndices) {
-                std::cout << index + 1 << " "; // Convert back to 1-based index for display
-            }
-            std::cout << "\n";
-        }
-    }
-
-    std::vector<Vertex> vertices;
-    std::vector<Face> faces;
-};
-} // namespace Parser
+}

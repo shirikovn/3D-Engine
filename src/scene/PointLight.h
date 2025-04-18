@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Linalg.h"
+#include "core/primitives/Color.h"
 
 namespace Render3D {
-struct SimpleLight {
+struct PointLight {
     Vector3 position;
+    Color color;
     float intensity;
 };
-} // namespace Render3D
+}
