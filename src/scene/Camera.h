@@ -100,6 +100,14 @@ public:
         z = R * z;
     }
 
+    void increaseNear() {
+        near_ += 0.01;
+    }
+
+    void decreaseNear() {
+        near_ -= 0.01;
+    }
+
     Vector3 x, y, z;
     Vector3 eye_, target_;
     float near_;
