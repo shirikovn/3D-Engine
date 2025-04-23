@@ -1,7 +1,0 @@
-.cache/
-.vscode/
-build/
-info.md
-.gitignore
-.clang-format
-.DS_Store
