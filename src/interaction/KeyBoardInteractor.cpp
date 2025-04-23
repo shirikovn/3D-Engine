@@ -42,5 +42,13 @@ namespace Render3D {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift)) {
             camera.moveDown();
         }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {
+            camera.increaseNear();
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) {
+            camera.decreaseNear();
+        }
     }
 }
